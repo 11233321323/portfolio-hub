@@ -8,6 +8,7 @@ module.exports = {
       }
     }
   },
+  outputDir: 'dist',
   publicPath: '/',
   configureWebpack: {
     performance: {
