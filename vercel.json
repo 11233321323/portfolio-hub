@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "vue",
-  "buildCommand": "npm run vercel-build",
+  "buildCommand": "chmod +x ./node_modules/.bin/vue-cli-service && npm run vercel-build",
   "devCommand": "npm run dev",
   "outputDirectory": "dist",
   "installCommand": "npm install --force",
