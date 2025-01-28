@@ -1,5 +1,10 @@
 export const messages = {
   zh: {
+    nav: {
+      about: '关于我',
+      skills: '技能',
+      projects: '项目'
+    },
     name: '陈小明',
     title: '全栈开发工程师',
     about: {
@@ -27,9 +32,19 @@ export const messages = {
           link: '#'
         }
       ]
+    },
+    social: {
+      email: '邮箱',
+      github: 'GitHub',
+      linkedin: '领英'
     }
   },
   en: {
+    nav: {
+      about: 'About',
+      skills: 'Skills',
+      projects: 'Projects'
+    },
     name: 'Alex Chen',
     title: 'Full Stack Developer',
     about: {
@@ -57,6 +72,11 @@ export const messages = {
           link: '#'
         }
       ]
+    },
+    social: {
+      email: 'Email',
+      github: 'GitHub',
+      linkedin: 'LinkedIn'
     }
   }
-}
+} 

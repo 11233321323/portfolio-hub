@@ -269,4 +269,4 @@ export default {
   --text-color: #ffffff;
   --bg-color: #1a1a1a;
 }
-</style>
+</style> 
