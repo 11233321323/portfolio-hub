@@ -17,7 +17,7 @@
         </div>
         <div class="theme-switch">
           <button @click="toggleTheme">
-            <i :class="isDark ? 'fas fa-sun' : 'fas fa-moon'"></i>
+            <span :class="['icon', isDark ? 'icon-sun' : 'icon-moon']"></span>
           </button>
         </div>
       </div>
@@ -32,13 +32,13 @@
         </div>
         <div class="social-links">
           <a :href="profileData.social.github" target="_blank" title="GitHub">
-            <i class="fab fa-github"></i>
+            <span class="icon icon-github"></span>
           </a>
           <a :href="'mailto:' + profileData.social.email" title="Email">
-            <i class="fas fa-envelope"></i>
+            <span class="icon icon-email"></span>
           </a>
           <a :href="profileData.social.linkedin" target="_blank" title="LinkedIn">
-            <i class="fab fa-linkedin"></i>
+            <span class="icon icon-linkedin"></span>
           </a>
         </div>
       </header>
