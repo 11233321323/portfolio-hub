@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "vercel-build": "vue-cli-service build"
+    "vercel-build": "vue-cli-service build --mode production"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
