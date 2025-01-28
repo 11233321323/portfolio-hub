@@ -1,272 +1,42 @@
 <template>
-  <div class="home" :class="{ 'dark-mode': isDark }" :style="themeStyle">
-    <nav class="nav-bar">
-      <div class="nav-brand">
-        <h1>{{ currentLang === 'zh' ? '个人主页' : 'Portfolio' }}</h1>
-      </div>
-      <div class="nav-controls">
-        <div class="language-switch">
-          <button 
-            @click="switchLang('zh')" 
-            :class="{ active: currentLang === 'zh' }"
-          >中</button>
-          <button 
-            @click="switchLang('en')" 
-            :class="{ active: currentLang === 'en' }"
-          >EN</button>
-        </div>
-        <div class="theme-switch">
-          <button @click="toggleTheme">
-            <span :class="['icon', isDark ? 'icon-sun' : 'icon-moon']"></span>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <div class="content-wrapper">
-      <header class="hero">
-        <div class="profile">
-          <img :src="profileData.avatar" :alt="profileData.name" class="avatar">
-          <h1>{{ profileData.name }}</h1>
-          <p class="title">{{ profileData.title }}</p>
-        </div>
-        <div class="social-links">
-          <a :href="profileData.social.github" target="_blank" title="GitHub">
-            <span class="icon icon-github"></span>
-          </a>
-          <a :href="'mailto:' + profileData.social.email" title="Email">
-            <span class="icon icon-email"></span>
-          </a>
-          <a :href="profileData.social.linkedin" target="_blank" title="LinkedIn">
-            <span class="icon icon-linkedin"></span>
-          </a>
-        </div>
-      </header>
-
-      <section class="about">
-        <h2>{{ messages[currentLang].about.title }}</h2>
-        <p>{{ messages[currentLang].about.content }}</p>
-      </section>
-
-      <section class="skills">
-        <h2>{{ messages[currentLang].skills.title }}</h2>
-        <div class="skill-tags">
-          <span v-for="skill in messages[currentLang].skills.list" :key="skill">{{ skill }}</span>
-        </div>
-      </section>
-
-      <section class="projects">
-        <h2>{{ messages[currentLang].projects.title }}</h2>
-        <div class="project-grid">
-          <div v-for="project in messages[currentLang].projects.list" :key="project.id" class="project-card">
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.description }}</p>
-            <a :href="project.link" class="project-link" target="_blank">
-              {{ messages[currentLang].projects.viewProject }} →
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+  <!-- ... 其他代码 ... -->
+  <div class="social-links">
+    <a :href="profileData.social.github" target="_blank" title="GitHub">
+      <svg class="icon" viewBox="0 0 496 512">
+        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+      </svg>
+    </a>
+    <a :href="'mailto:' + profileData.social.email" title="Email">
+      <svg class="icon" viewBox="0 0 512 512">
+        <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+      </svg>
+    </a>
+    <a :href="profileData.social.linkedin" target="_blank" title="LinkedIn">
+      <svg class="icon" viewBox="0 0 448 512">
+        <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+      </svg>
+    </a>
   </div>
+
+  <div class="theme-switch">
+    <button @click="toggleTheme">
+      <svg v-if="isDark" class="icon" viewBox="0 0 512 512">
+        <path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"/>
+      </svg>
+      <svg v-else class="icon" viewBox="0 0 384 512">
+        <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
+      </svg>
+    </button>
+  </div>
+  <!-- ... 其他代码 ... -->
 </template>
 
-<script>
-import { messages } from '../locales'
-
-export default {
-  name: 'Home',
-  data() {
-    return {
-      currentLang: 'zh',
-      messages,
-      isDark: false,
-      profileData: {
-        name: messages.zh.name,
-        title: messages.zh.title,
-        avatar: 'https://via.placeholder.com/150',
-        social: {
-          github: 'https://github.com',
-          email: 'example@email.com',
-          linkedin: 'https://linkedin.com'
-        }
-      },
-      themeStyle: {
-        '--primary-color': '#3498db',
-        '--text-color': '#2c3e50',
-        '--bg-color': '#ffffff'
-      }
-    }
-  },
-  methods: {
-    switchLang(lang) {
-      this.currentLang = lang;
-      this.profileData.name = messages[lang].name;
-      this.profileData.title = messages[lang].title;
-    },
-    toggleTheme() {
-      this.isDark = !this.isDark;
-      if (this.isDark) {
-        this.themeStyle['--bg-color'] = '#1a1a1a';
-        this.themeStyle['--text-color'] = '#ffffff';
-      } else {
-        this.themeStyle['--bg-color'] = '#ffffff';
-        this.themeStyle['--text-color'] = '#2c3e50';
-      }
-    }
-  }
-}
-</script>
-
 <style lang="scss" scoped>
-.home {
-  min-height: 100vh;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
-
-  .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .nav-brand h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .nav-controls {
-      display: flex;
-      gap: 1rem;
-
-      button {
-        background: none;
-        border: none;
-        color: var(--text-color);
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 4px;
-
-        &.active {
-          background-color: var(--primary-color);
-          color: white;
-        }
-
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-
-  .content-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  .hero {
-    text-align: center;
-    margin-bottom: 4rem;
-
-    .avatar {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      margin-bottom: 1rem;
-    }
-
-    .title {
-      color: var(--primary-color);
-      font-size: 1.2rem;
-    }
-  }
-
-  .social-links {
-    margin-top: 1rem;
-
-    a {
-      color: var(--text-color);
-      font-size: 1.5rem;
-      margin: 0 0.5rem;
-      text-decoration: none;
-
-      &:hover {
-        color: var(--primary-color);
-      }
-    }
-  }
-
-  section {
-    margin-bottom: 4rem;
-
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2rem;
-    }
-  }
-
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-
-    span {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-  }
-
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-
-    .project-card {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-      h3 {
-        margin-bottom: 1rem;
-        color: var(--primary-color);
-      }
-
-      p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-      }
-
-      .project-link {
-        color: var(--primary-color);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  fill: currentColor;
 }
 
-.dark-mode {
-  --primary-color: #3498db;
-  --text-color: #ffffff;
-  --bg-color: #1a1a1a;
-}
-</style> 
+// ... 其他样式保持不变 ...
+</style>
