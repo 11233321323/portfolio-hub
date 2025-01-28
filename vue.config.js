@@ -8,5 +8,10 @@ module.exports = {
       }
     }
   },
-  publicPath: '/'
+  publicPath: '/',
+  configureWebpack: {
+    performance: {
+      hints: false
+    }
+  }
 } 
