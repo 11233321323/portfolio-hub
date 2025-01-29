@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
-    token: localStorage.getItem('token') || null
+    token: localStorage.getItem('token') || null,
+    isAuthenticated: !!localStorage.getItem('token')
   }),
 
   actions: {
@@ -39,9 +40,12 @@ export const useAuthStore = defineStore('auth', {
         
         if (password === localStorage.getItem('password')) {
           const token = 'token_' + Date.now()
-          localStorage.setItem('token', token)
           this.token = token
           this.user = { username }
+          this.isAuthenticated = true
+          
+          // 保存到本地存储
+          localStorage.setItem('token', token)
           localStorage.setItem('user', username)
           return true
         }
@@ -53,10 +57,23 @@ export const useAuthStore = defineStore('auth', {
     },
 
     logout() {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
       this.token = null
       this.user = null
+      this.isAuthenticated = false
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+    },
+
+    checkAuth() {
+      const token = localStorage.getItem('token')
+      const user = localStorage.getItem('user')
+      if (token && user) {
+        this.token = token
+        this.user = { username: user }
+        this.isAuthenticated = true
+        return true
+      }
+      return false
     },
 
     init() {
@@ -64,12 +81,7 @@ export const useAuthStore = defineStore('auth', {
       if (!localStorage.getItem('password')) {
         localStorage.setItem('password', 'admin123')
       }
-      
-      // 恢复用户信息
-      const savedUser = localStorage.getItem('user')
-      if (savedUser) {
-        this.user = { username: savedUser }
-      }
+      this.checkAuth()
     }
   }
 }) 

@@ -26,10 +26,25 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/admin')
-  } else {
+  const isAuthenticated = authStore.isAuthenticated
+
+  // 需要认证的路由
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next('/login')
+    } else {
+      next()
+    }
+  } 
+  // 登录页面
+  else if (to.path === '/login') {
+    if (isAuthenticated) {
+      next('/admin')
+    } else {
+      next()
+    }
+  }
+  else {
     next()
   }
 })
