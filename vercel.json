@@ -1,17 +1,11 @@
 {
-  "version": 2,
-  "framework": "vue",
-  "buildCommand": "chmod +x ./node_modules/.bin/vue-cli-service && npm run vercel-build",
-  "devCommand": "npm run dev",
-  "outputDirectory": "dist",
-  "installCommand": "npm install --force",
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ]
+  ],
+  "github": {
+    "silent": true
+  }
 } 

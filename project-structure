@@ -1,0 +1,27 @@
+personal-homepage/
+├─ src/
+│  ├─ assets/
+│  │  └─ styles/
+│  │     ├─ main.css
+│  │     └─ variables.css
+│  ├─ components/
+│  │  ├─ Avatar.vue
+│  │  ├─ SkillTag.vue
+│  │  ├─ ProjectCard.vue
+│  │  └─ Footer.vue
+│  ├─ views/
+│  │  ├─ Home.vue
+│  │  └─ Admin.vue
+│  ├─ stores/
+│  │  ├─ user.js
+│  │  └─ projects.js
+│  ├─ router/
+│  │  └─ index.js
+│  ├─ App.vue
+│  └─ main.js
+├─ public/
+│  └─ favicon.ico
+├─ index.html
+├─ package.json
+├─ vite.config.js
+└─ vercel.json 

@@ -1,55 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Admin from '../views/Admin.vue'
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
-    meta: { requiresAuth: true }
-  }
-]
+import AdminLogin from '../views/admin/Login.vue'
+import AdminDashboard from '../views/admin/Dashboard.vue'
+import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      component: Home
+    },
+    {
+      path: '/admin',
+      component: AdminLogin
+    },
+    {
+      path: '/admin/dashboard',
+      component: AdminDashboard,
+      meta: { requiresAuth: true }
+    }
+  ]
 })
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const session = localStorage.getItem('session');
-    if (!session) {
-      next('/login');
-      return;
-    }
-
-    try {
-      const sessionData = JSON.parse(session);
-      if (sessionData.expires < Date.now()) {
-        localStorage.removeItem('session');
-        next('/login');
-        return;
-      }
-      next();
-    } catch {
-      localStorage.removeItem('session');
-      next('/login');
-    }
+  const authStore = useAuthStore()
+  
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/admin')
   } else {
-    next();
+    next()
   }
 })
 
