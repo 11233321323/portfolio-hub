@@ -28,8 +28,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const savedPassword = localStorage.getItem('password')
         if (!savedPassword) {
-          // 首次使用，设置默认密码
-          localStorage.setItem('password', '123456')
+          // 首次使用，设置默认密码为 admin123
+          localStorage.setItem('password', 'admin123')
         }
         
         if (password === localStorage.getItem('password')) {
@@ -48,6 +48,14 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       localStorage.removeItem('token')
       this.token = null
+    },
+
+    // 添加初始化方法
+    init() {
+      // 如果还没有设置密码，设置默认密码
+      if (!localStorage.getItem('password')) {
+        localStorage.setItem('password', 'admin123')
+      }
     }
   }
 }) 
