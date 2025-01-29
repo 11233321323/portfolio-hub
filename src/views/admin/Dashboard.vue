@@ -145,15 +145,33 @@
         <form @submit.prevent="changePassword" class="form-grid">
           <div class="form-group">
             <label>原密码</label>
-            <input type="password" v-model="passwordForm.oldPassword">
+            <input 
+              type="password" 
+              v-model="passwordForm.oldPassword"
+              placeholder="请输入原密码"
+            >
           </div>
           <div class="form-group">
             <label>新密码</label>
-            <input type="password" v-model="passwordForm.newPassword">
+            <input 
+              type="password" 
+              v-model="passwordForm.newPassword"
+              placeholder="请输入新密码"
+            >
           </div>
           <div class="form-group">
             <label>确认新密码</label>
-            <input type="password" v-model="passwordForm.confirmPassword">
+            <input 
+              type="password" 
+              v-model="passwordForm.confirmPassword"
+              placeholder="请再次输入新密码"
+            >
+          </div>
+          <div class="form-message" :class="{ 
+            'success': passwordMessage === '密码修改成功',
+            'error': passwordMessage && passwordMessage !== '密码修改成功'
+          }" v-if="passwordMessage">
+            {{ passwordMessage }}
           </div>
           <button type="submit" :disabled="changingPassword">
             {{ changingPassword ? '修改中...' : '修改密码' }}
@@ -270,6 +288,7 @@ const passwordForm = ref({
   confirmPassword: ''
 })
 const changingPassword = ref(false)
+const passwordMessage = ref('')
 
 const showThemePanel = ref(false)
 const currentTheme = ref({
@@ -392,32 +411,49 @@ onMounted(async () => {
 })
 
 const changePassword = async () => {
-  if (!passwordForm.value.oldPassword || 
-      !passwordForm.value.newPassword || 
-      !passwordForm.value.confirmPassword) {
-    // 显示错误提示
+  // 表单验证
+  if (!passwordForm.value.oldPassword) {
+    passwordMessage.value = '请输入原密码'
     return
   }
-
+  if (!passwordForm.value.newPassword) {
+    passwordMessage.value = '请输入新密码'
+    return
+  }
   if (passwordForm.value.newPassword !== passwordForm.value.confirmPassword) {
-    // 显示错误提示：两次密码不一致
+    passwordMessage.value = '两次输入的密码不一致'
+    return
+  }
+  if (passwordForm.value.newPassword.length < 6) {
+    passwordMessage.value = '新密码长度不能小于6位'
     return
   }
 
   changingPassword.value = true
+  passwordMessage.value = ''
+
   try {
-    await authStore.changePassword(
-      passwordForm.value.oldPassword,
-      passwordForm.value.newPassword
-    )
-    // 显示成功提示
+    await authStore.changePassword({
+      oldPassword: passwordForm.value.oldPassword,
+      newPassword: passwordForm.value.newPassword
+    })
+    
+    // 清空表单
     passwordForm.value = {
       oldPassword: '',
       newPassword: '',
       confirmPassword: ''
     }
-  } catch (err) {
-    // 显示错误提示
+    
+    passwordMessage.value = '密码修改成功'
+    
+    // 3秒后清除成功消息
+    setTimeout(() => {
+      passwordMessage.value = ''
+    }, 3000)
+  } catch (error) {
+    console.error('修改密码失败:', error)
+    passwordMessage.value = error.message || '修改失败，请重试'
   } finally {
     changingPassword.value = false
   }
