@@ -1,43 +1,53 @@
 import { defineStore } from 'pinia'
+import { supabase } from '../utils/supabase'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     userInfo: {
-      name: '前端开发工程师',  // 设置默认值
-      role: '开源爱好者',
-      intro: '热爱技术，热爱开源，致力于前端开发。',
+      name: '',
+      role: '',
+      intro: '',
       avatar: ''
-    }
+    },
+    skills: [],
+    projects: []
   }),
 
   actions: {
     async saveUserInfo(info) {
       try {
-        this.userInfo = { ...info }
-        localStorage.setItem('user_info', JSON.stringify(info))
+        const { data, error } = await supabase
+          .from('user_info')
+          .upsert({ id: 1, ...info })
+          .select()
+          .single()
+
+        if (error) throw error
         
-        // 更新主页所有相关元素
-        this.updateHomePageElements()
-        return true
+        this.userInfo = data
+        return data
       } catch (error) {
-        console.error('保存用户信息失败:', error)
+        console.error('保存失败:', error)
         throw error
       }
     },
 
     async loadUserInfo() {
       try {
-        const savedInfo = localStorage.getItem('user_info')
-        if (savedInfo) {
-          const info = JSON.parse(savedInfo)
-          this.userInfo = info
-          this.updateHomePageElements()
-          return info
+        const { data, error } = await supabase
+          .from('user_info')
+          .select('*')
+          .single()
+
+        if (error) throw error
+
+        if (data) {
+          this.userInfo = data
         }
+        return data
       } catch (error) {
-        console.error('加载用户信息失败:', error)
+        console.error('加载失败:', error)
       }
-      return null
     },
 
     updateHomePageElements() {
